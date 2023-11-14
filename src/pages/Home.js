@@ -2,7 +2,8 @@ import React from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import ChatSession from "../components/ChatSession";
 
-const Home = (session) => {
+const Home = ({session}) => {
+  
   return (
     <>
       <Row className="w-100 gap-0 p-0 m-0">
@@ -16,14 +17,6 @@ const Home = (session) => {
             />
           </div>
           <div className="d-flex flex-column">
-            <ChatSession />
-            <ChatSession />
-            <ChatSession />
-            <ChatSession />
-            <ChatSession />
-            <ChatSession />
-            <ChatSession />
-            <ChatSession />
             <ChatSession />
           </div>
         </Col>

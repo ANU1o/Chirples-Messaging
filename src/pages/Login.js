@@ -14,7 +14,6 @@ const Login = ({ Register, passSession }) => {
     name: "",
     userImg: "",
     password: "",
-    friends: [],
   });
 
   const setValues = (e) => {
