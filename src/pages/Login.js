@@ -1,8 +1,44 @@
-import React from "react";
+import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { addUser } from "../service/APIs/allAPIs";
 
-const Login = () => {
+const Login = ({ Register }) => {
+  const [InputData, setInputData] = useState({
+    id: "",
+    name: "",
+    userImg: "",
+    password: "",
+    friends: [],
+  });
+
+  const setValues = (e) => {
+    let { name, value } = e.target;
+    setInputData({ ...InputData, [name]: value });
+  };
+
+  const submitRegister = async () => {
+    const { id, name, userImg, password } = InputData;
+    // console.log(InputData);
+
+    // console.log(id, name, userImg, password);
+    if (id === "" || name === "" || userImg === "" || password === "") {
+      alert("Enter All Data");
+    } else {
+      const result = await addUser(InputData);
+      if (result.status >= 200 && result.status < 300) {
+        alert("suces");
+      } else {
+        console.log(result);
+      }
+    }
+  };
+
+  const submitLogin = () => {};
+
+  // console.log(InputData);
+
+  const isRegisterForm = Register ? true : false;
   return (
     <Modal fullscreen show={true}>
       <Modal.Body className="bgsocial user-select-none d-flex flex-column justify-content-center align-items-center">
@@ -12,28 +48,79 @@ const Login = () => {
               <i className="bi bi-feather2"></i>
             </h1>
             <h2 className="text-center text-primary">Chirples</h2>
-            <h3 className="text-center">Login</h3>
+            <h3 className="text-center">
+              {isRegisterForm ? "Register" : "Login"}
+            </h3>
           </div>
           <Form.Control
-            type="name"
-            placeholder="Username"
+            type="text"
+            placeholder={isRegisterForm ? "Create Username" : "Username"}
             className="border-5 border-primary mb-3"
+            name="id"
+            onChange={(e) => setValues(e)}
           />
+          {isRegisterForm ? (
+            <Form.Control
+              type="text"
+              placeholder="Enter Your Name"
+              className="border-5 border-primary mb-3"
+              name="name"
+              onChange={(e) => setValues(e)}
+            />
+          ) : (
+            <span></span>
+          )}
+          {isRegisterForm ? (
+            <Form.Control
+              type="text"
+              placeholder="Profile Picture (URL)"
+              className="border-5 border-primary mb-3"
+              name="userImg"
+              onChange={(e) => setValues(e)}
+            />
+          ) : (
+            <span></span>
+          )}
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder={isRegisterForm ? "Enter New Password" : "Password"}
             className="border-5 border-primary mb-3"
+            name="password"
+            onChange={(e) => setValues(e)}
           />
-          <Button variant="primary" className="w-100">
-            Login
-          </Button>
+          {isRegisterForm ? (
+            <Button
+              variant="primary"
+              className="w-100"
+              onClick={() => submitRegister()}
+            >
+              Sign Up
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              className="w-100"
+              onClick={() => submitLogin()}
+            >
+              Sign In
+            </Button>
+          )}
           <hr />
-          <p className="text-center m-0">
-            New to Chirple?{" "}
-            <Link to="/Register" className="fw-bold text-decoration-none">
-              Join Now
-            </Link>
-          </p>
+          {isRegisterForm ? (
+            <p className="text-center m-0">
+              Already in Chirple?{" "}
+              <Link to="/" className="fw-bold text-decoration-none">
+                Sign In
+              </Link>
+            </p>
+          ) : (
+            <p className="text-center m-0">
+              New to Chirple?{" "}
+              <Link to="/Register" className="fw-bold text-decoration-none">
+                Join Now
+              </Link>
+            </p>
+          )}
         </div>
       </Modal.Body>
     </Modal>

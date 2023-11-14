@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Col, Image } from "react-bootstrap";
 
-const PeopleTile = ({ userData }) => {
+const PeopleTile = ({ nameVal, userNameVal }) => {
   return (
     <Col lg={4} md={6} xs={12}>
       <div className="d-flex gap-3 mb-4 align-items-center bg-body p-3">
@@ -11,8 +11,8 @@ const PeopleTile = ({ userData }) => {
           roundedCircle
         />
         <div>
-          <h4 className="text-primary">Name</h4>
-          <h6>UserName</h6>
+          <h4 className="text-primary">{nameVal}</h4>
+          <h6>{userNameVal}</h6>
         </div>
         <div className="d-flex ms-auto align-items-center">
           <Button variant="primary">

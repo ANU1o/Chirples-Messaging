@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 import Setting from "./pages/Setting";
 import People from "./pages/People";
 
@@ -12,7 +11,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
+        <Route path="/Register" element={<Login Register />} />
         <Route path="/Chat" element={<Home />} />
         <Route path="/Setting" element={<Setting />} />
         <Route path="/People" element={<People />} />
