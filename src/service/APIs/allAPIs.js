@@ -1,6 +1,6 @@
 import { commonRequest } from "./commonRequest";
 
-const baseURL = "http://localhost:5000";
+const baseURL = "https://crudserver-73dh.onrender.com";
 
 // add user
 export const addUser = async (body) => {
