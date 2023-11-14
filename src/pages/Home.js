@@ -1,9 +1,23 @@
-import React from "react";
+import { useEffect } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import ChatSession from "../components/ChatSession";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers, searchUser } from "../redux/userSlice";
 
-const Home = ({session}) => {
-  
+const Home = ({ session }) => {
+  const userData = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const { allUsers, loading, error } = userData;
+
+  useEffect(
+    () => {
+      dispatch(fetchUsers());
+    },
+    // eslint-disable-next-line
+    []
+  );
+
   return (
     <>
       <Row className="w-100 gap-0 p-0 m-0">
@@ -12,12 +26,25 @@ const Home = ({session}) => {
             <h3 className="my-3 my-lg-2">Chats</h3>
             <Form.Control
               type="text"
-              placeholder="Search messages or user"
+              placeholder="Search by Username"
               className="border-primary border-4"
+              onChange={(e) => dispatch(searchUser(e.target.value))}
             />
           </div>
           <div className="d-flex flex-column">
-            <ChatSession />
+            {loading && <div>{loading}</div>}
+            {error && <div>{error}</div>}
+            {allUsers?.length > 0 &&
+              allUsers
+                ?.filter((user) => user.id !== session)
+                .map((user) => (
+                  <ChatSession
+                    username={user.id}
+                    name={user.name}
+                    img={user.userImg}
+                    key={user}
+                  />
+                ))}
           </div>
         </Col>
         <Col className="d-none d-lg-flex flex-column align-items-center justify-content-center ">

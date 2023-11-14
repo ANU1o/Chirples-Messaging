@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = ({ Register, passSession }) => {
   const navigate = useNavigate();
   // eslint-disable-next-line
-  passSession("");
   const [InputData, setInputData] = useState({
     id: "",
     name: "",
@@ -31,8 +30,7 @@ const Login = ({ Register, passSession }) => {
     } else {
       const result = await addUser(InputData);
       if (result.status >= 200 && result.status < 300) {
-        navigate("/Chat");
-        passSession(id);
+        navigate("/");
       }
     }
   };

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Image, Offcanvas } from "react-bootstrap";
 import { MessageSpace } from "./MessageSpace";
 
-const ChatSession = () => {
+const ChatSession = ({ username, name, img }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -11,16 +11,16 @@ const ChatSession = () => {
     <>
       <div
         onClick={toggleShow}
-        className="d-flex flex-row gap-3 border-bottom border-3 border-primary-subtle p-3 bg-card-body"
+        className="d-flex flex-row align-items-center gap-3 border-bottom border-3 border-primary-subtle p-3 bg-card-body"
       >
         <Image
-          src="/social.jpg"
-          style={{ width: "5rem", height: "5rem" }}
+          src={img}
+          style={{ width: "5rem", height: "5rem", objectFit: "cover" }}
           roundedCircle
         />
         <div className="d-flex flex-column">
-          <h6 className="text-primary">Username</h6>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit...</p>
+          <h5 className="text-primary m-0">{name}</h5>
+          <h6>{username}</h6>
         </div>
       </div>
       <Offcanvas
@@ -31,7 +31,12 @@ const ChatSession = () => {
         className="w-MS user-select-none"
       >
         <Offcanvas.Body className="p-0">
-          <MessageSpace closeSpace={handleClose} />
+          <MessageSpace
+            closeSpace={handleClose}
+            name={name}
+            uname={username}
+            img={img}
+          />
         </Offcanvas.Body>
       </Offcanvas>
     </>

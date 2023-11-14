@@ -6,7 +6,11 @@ const PeopleTile = ({ nameVal, userNameVal, ppic, sessionRef }) => {
       <div className="d-flex gap-3 mb-4 align-items-center bg-body p-3">
         <Image
           src={ppic}
-          style={{ objectFit: "cover", width: "5rem", height: "5rem" }}
+          style={{
+            objectFit: "cover",
+            width: "5rem",
+            height: "5rem",
+          }}
           roundedCircle
         />
         <div>

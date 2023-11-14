@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login passSession={setSession} />} />
         <Route path="/Register" element={<Login Register />} />
-        <Route path="/Chat" element={<Home />} session={session} />
+        <Route path="/Chat" element={<Home session={session} />} />
         <Route path="/Setting" element={<Setting session={session} />} />
         <Route path="/People" element={<People session={session} />} />
       </Routes>
