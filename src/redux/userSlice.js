@@ -1,50 +1,54 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllUser } from "../APIs/allAPIs";
+import { getAllUser } from "../service/APIs/allAPIs";
 
-const fetchUser = createAsyncThunk(`userList/fetchUser`, async () => {
+// API call - createAsyncThunk
+
+const fetchUsers = createAsyncThunk(`userList/fetchUsers`, async () => {
   const result = await getAllUser();
   return result.data;
 });
+
+// slice creation
 
 const userSlice = createSlice({
   name: "userList",
   initialState: {
     loading: false,
-    allUser: [],
+    allUsers: [],
     searchArray: [],
     error: "",
   },
 
   reducers: {
+    // Actions without API
     searchUser: (state, action) => {
-      // eslint-disable-next-line
-      state.allUser = state.searchArray.filter((user) => {
-        user.id
+      state.allUsers = state.searchArray.filter((item) =>
+        item.id
           .toLowerCase()
           .trim()
-          .includes(action.payload.toLowerCase().trim());
-      });
+          .includes(action.payload.toLowerCase().trim())
+      );
     },
   },
 
   extraReducers: (builder) => {
-    builder.addCase(fetchUser.pending, (state) => {
+    builder.addCase(fetchUsers.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchUser.fulfilled, (state, action) => {
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
       state.loading = false;
-      state.allUser = action.payload;
+      state.allUsers = action.payload;
       state.searchArray = action.payload;
       state.error = "";
     });
-    builder.addCase(fetchUser.rejected, (state, action) => {
+    builder.addCase(fetchUsers.rejected, (state, action) => {
       state.loading = false;
-      state.allUser = [];
+      state.allUsers = [];
       state.error = action.payload;
     });
   },
 });
 
 export default userSlice.reducer;
-export { fetchUser };
+export { fetchUsers };
 export const { searchUser } = userSlice.actions;

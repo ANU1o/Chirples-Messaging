@@ -4,17 +4,19 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Setting from "./pages/Setting";
 import People from "./pages/People";
+import { useState } from "react";
 
 function App() {
+  const [session, setSession] = useState("");
   return (
     <div className="App d-flex bg-body-secondary user-select-none flex-column flex-lg-row min-vh-100 overflow-x-hidden">
       <Header />
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Login passSession={setSession} />} />
         <Route path="/Register" element={<Login Register />} />
-        <Route path="/Chat" element={<Home />} />
-        <Route path="/Setting" element={<Setting />} />
-        <Route path="/People" element={<People />} />
+        <Route path="/Chat" element={<Home />} session={session} />
+        <Route path="/Setting" element={<Setting session={session} />} />
+        <Route path="/People" element={<People session={session} />} />
       </Routes>
     </div>
   );

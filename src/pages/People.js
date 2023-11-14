@@ -2,16 +2,17 @@ import React, { useEffect } from "react";
 import { Form, Row } from "react-bootstrap";
 import PeopleTile from "../components/PeopleTile";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../service/redux/userSlice";
+import { fetchUsers, searchUser } from "../redux/userSlice";
 
-const People = () => {
+const People = ({ session }) => {
+  const userData = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.userSlice);
-  const { loading, allUser, error } = userData;
+
+  const { allUsers, loading, error } = userData;
 
   useEffect(
     () => {
-      dispatch(fetchUser());
+      dispatch(fetchUsers());
     },
     // eslint-disable-next-line
     []
@@ -24,15 +25,24 @@ const People = () => {
           type="text"
           placeholder="Search for people"
           className="border-primary border-4"
+          onChange={(e) => dispatch(searchUser(e.target.value))}
         />
       </div>
       <Row className="m-3 m-lg-5">
         {loading && <div>{loading}</div>}
         {error && <div>{error}</div>}
-        {allUser?.length > 0 &&
-          allUser?.map((user) => (
-            <PeopleTile nameVal={user.name} userNameVal={user.id} />
-          ))}
+        {allUsers?.length > 0 &&
+          allUsers
+            ?.filter((user) => user.id !== session)
+            .map((user) => (
+              <PeopleTile
+                nameVal={user.name}
+                userNameVal={user.id}
+                ppic={user.userImg}
+                key={user}
+                sessionRef={session}
+              />
+            ))}
       </Row>
     </div>
   );

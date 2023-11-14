@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import ChatSession from "../components/ChatSession";
 
-const Home = () => {
+const Home = (session) => {
   return (
     <>
       <Row className="w-100 gap-0 p-0 m-0">

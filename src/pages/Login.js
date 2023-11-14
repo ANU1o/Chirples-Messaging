@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { addUser } from "../service/APIs/allAPIs";
+import { Link, useNavigate } from "react-router-dom";
+import { addUser, verifyUser } from "../service/APIs/allAPIs";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Login = ({ Register }) => {
+const Login = ({ Register, passSession }) => {
+  const navigate = useNavigate();
+  // eslint-disable-next-line
+  passSession("");
   const [InputData, setInputData] = useState({
     id: "",
     name: "",
@@ -27,14 +32,33 @@ const Login = ({ Register }) => {
     } else {
       const result = await addUser(InputData);
       if (result.status >= 200 && result.status < 300) {
-        alert("suces");
-      } else {
-        console.log(result);
+        navigate("/Chat");
+        passSession(id);
       }
     }
   };
 
-  const submitLogin = () => {};
+  const submitLogin = async () => {
+    const { id, password } = InputData;
+    const result = await verifyUser(id);
+    if (result.status >= 200 && result.status < 300) {
+      if (result.data.password === password) {
+        navigate(`/Chat`);
+        passSession(id);
+      } else {
+        toast.error("Incorrect Username or Password", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    }
+  };
 
   // console.log(InputData);
 
@@ -123,6 +147,7 @@ const Login = ({ Register }) => {
           )}
         </div>
       </Modal.Body>
+      <ToastContainer />
     </Modal>
   );
 };

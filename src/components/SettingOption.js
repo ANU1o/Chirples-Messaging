@@ -1,18 +1,25 @@
 import React from "react";
 import { Button, Form, ListGroupItem } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-const SettingOption = ({ information, submitValue, submitFunction }) => (
-  <ListGroupItem className="d-flex flex-row align-items-center">
-    <p className="m-0">{information}</p>
-    <Button
-      variant="primary"
-      className="ms-auto"
-      onClick={() => submitFunction}
-    >
-      {submitValue}
-    </Button>
-  </ListGroupItem>
-);
+const SettingOption = ({ information, submitValue, submitFunction }) => {
+  const navigate = useNavigate();
+
+  return (
+    <ListGroupItem className="d-flex flex-row align-items-center">
+      <p className="m-0">{information}</p>
+      <Button
+        variant="primary"
+        className="ms-auto"
+        onClick={() => {
+          submitFunction;
+        }}
+      >
+        {submitValue}
+      </Button>
+    </ListGroupItem>
+  );
+};
 
 const SettingCheck = ({ information }) => (
   <ListGroupItem className="d-flex flex-row align-items-center">
