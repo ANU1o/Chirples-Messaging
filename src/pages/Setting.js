@@ -20,7 +20,9 @@ const Setting = ({ session }) => {
 
   return (
     <div className="p-3 p-lg-5 w-100">
-      <h3 className="mb-5 mt-3">Setting</h3>
+      <h3 className="mb-5 mt-3">
+        <i className="bi bi-gear text-primary me-2"></i>Setting
+      </h3>
       <div className="bg-body p-3 p-lg-5">
         <ListGroup>
           <ListGroupItem className="d-flex flex-column flex-lg-row gap-3 align-items-center">

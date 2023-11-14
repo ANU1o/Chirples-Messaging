@@ -23,7 +23,9 @@ const Home = ({ session }) => {
       <Row className="w-100 gap-0 p-0 m-0">
         <Col lg="3" xs="12" className="p-0 overflow-y-scroll vh-100">
           <div className="bg-body-tertiary sticky-top p-3 p-lg-5">
-            <h3 className="my-3 my-lg-2">Chats</h3>
+            <h3 className="my-3 my-lg-2">
+              <i className="bi bi-chat-right text-primary me-2"></i>Chats
+            </h3>
             <Form.Control
               type="text"
               placeholder="Search by Username"
