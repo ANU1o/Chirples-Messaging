@@ -45,6 +45,7 @@ const Home = ({ session }) => {
                     name={user.name}
                     img={user.userImg}
                     key={user}
+                    sessionRef={session}
                   />
                 ))}
           </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Image, Offcanvas } from "react-bootstrap";
 import { MessageSpace } from "./MessageSpace";
 
-const ChatSession = ({ username, name, img }) => {
+const ChatSession = ({ username, name, img, sessionRef }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -36,6 +36,7 @@ const ChatSession = ({ username, name, img }) => {
             name={name}
             uname={username}
             img={img}
+            session={sessionRef}
           />
         </Offcanvas.Body>
       </Offcanvas>

@@ -1,15 +1,30 @@
-import React from "react";
+import { useEffect } from "react";
 import { Button, Card, Form, Image, InputGroup } from "react-bootstrap";
 import MessageBubble from "./MessageBubble";
+import { useDispatch, useSelector } from "react-redux";
+import fetchMessages from "../redux/userSlice";
 
-const MessageSpace = ({ closeSpace, uname, name, img }) => {
+const MessageSpace = ({ closeSpace, uname, name, img, session }) => {
+  const messageData = useSelector((state) => state.message);
+  const dispatch = useDispatch();
+
+  const { allMessages, loading, error } = messageData;
+
+  useEffect(
+    () => {
+      dispatch(fetchMessages());
+    },
+    // eslint-disable-next-line
+    []
+  );
+
   return (
     <Card className="rounded-0 border-0 h-100">
       <Card.Header className="bg-primary rounded-0">
         <div className="d-flex flex-row gap-3 align-items-center">
           <Image
             src={img}
-            style={{ width: "3rem", aspectRatio: "1/1", objectFit:"cover" }}
+            style={{ width: "3rem", aspectRatio: "1/1", objectFit: "cover" }}
             roundedCircle
           />
           <div className="d-flex flex-column" data-bs-theme="dark">
@@ -22,18 +37,19 @@ const MessageSpace = ({ closeSpace, uname, name, img }) => {
         </div>
       </Card.Header>
       <Card.Body className="overflow-y-scroll">
-        <MessageBubble
-          sender={true}
-          content="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-          mID="m1"
-        />
-        <MessageBubble
-          sender={false}
-          mID="m2"
-          content="Laborum soluta voluptatibus ducimus et, ipsa aliquam explicabo saepe
-        veniam suscipit voluptates accusamus maiores est dolore consequatur
-        quaerat maxime enim aperiam possimus?"
-        />
+        {loading && <div>{loading}</div>}
+        {error && <div>{error}</div>}
+        {allMessages?.length > 0 &&
+          allMessages
+            ?.filter((m) => m.reciverName === uname)
+            .filter((m) => m.senderName === session)
+            .map((message) => (
+              <MessageBubble
+                sender={session ? true : false}
+                content={message.content}
+                mID="m1"
+              />
+            ))}
       </Card.Body>
       <Card.Footer className="rounded-0">
         <InputGroup>
