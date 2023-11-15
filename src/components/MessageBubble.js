@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const MessageBubble = ({ sender, content, mID }) => {
+const MessageBubble = ({ sender, content }) => {
   return (
     <div className="d-flex flex-row align-items-center mb-4 ">
       <div className="d-flex flex-column" style={{ order: sender ? "0" : "1" }}>
@@ -16,13 +16,13 @@ const MessageBubble = ({ sender, content, mID }) => {
           >
             {content}
           </div>
-          <i
+          {/* <i
             className="bi bi-three-dots m-2 align-self-center"
             data-bs-toggle="collapse"
             data-bs-target={`#${mID}`}
-          ></i>
+          ></i> */}
         </div>
-        <div className="collapse" id={mID}>
+        {/* <div className="collapse" id={mID}>
           <div className="d-flex flex-column">
             <div className={`mt-1 ${sender ? "text-start" : "text-end"}`}>
               <Button title="Copy" variant="light">
@@ -33,7 +33,7 @@ const MessageBubble = ({ sender, content, mID }) => {
               </Button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <p
         className={`${sender ? "ms-auto text-end" : "me-auto"} m-0`}

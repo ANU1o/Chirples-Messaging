@@ -1,21 +1,69 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Form, Image, InputGroup } from "react-bootstrap";
 import MessageBubble from "./MessageBubble";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMessages } from "../redux/messageSlice";
+import { addToMessage, fetchMessages } from "../redux/messageSlice";
+import uniqid from "uniqid";
+import { addMessage } from "../service/APIs/allAPIs";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MessageSpace = ({ closeSpace, uname, name, img, session }) => {
   const messageData = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
+  const [IPData, setIPData] = useState({
+    id: "",
+    senderName: "",
+    reciverName: "",
+    content: "",
+  });
+
   const { allMessages, loading, error } = messageData;
+
+  const messageDraft = (e) => {
+    let { value } = e.target;
+
+    setIPData({
+      ...IPData,
+
+      senderName: session,
+      reciverName: uname,
+      content: value,
+    });
+    console.log(IPData);
+  };
+
+  const handleSend = async () => {
+    let uid = uniqid();
+    setIPData({ ...IPData, id: uid });
+    const { content } = IPData;
+    if (content === "") {
+      toast.warning("No message entered", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
+    } else {
+      const result = await addMessage(IPData);
+      if (result.status >= 200 && result.status < 300) {
+        // dispatch(addToMessage(result));
+        return result.status;
+      }
+    }
+  };
 
   useEffect(
     () => {
       dispatch(fetchMessages());
     },
     // eslint-disable-next-line
-    []
+    [handleSend]
   );
 
   return (
@@ -42,11 +90,13 @@ const MessageSpace = ({ closeSpace, uname, name, img, session }) => {
         {allMessages?.length > 0 &&
           allMessages
             ?.filter(
-              (m) => m.reciverName === uname || m.reciverName === session
+              (m) =>
+                (m.senderName === session && m.reciverName === uname) ||
+                (m.senderName === uname && m.reciverName === session)
             )
             .map((message) => (
               <MessageBubble
-                sender={message.senderName === session ? true : false}
+                sender={message.senderName === session ? false : true}
                 content={message.content}
                 mID={message.id}
               />
@@ -58,12 +108,15 @@ const MessageSpace = ({ closeSpace, uname, name, img, session }) => {
             type="text"
             className="border-5 border-end-0 border-primary"
             placeholder="Enter message here"
+            name="messageD"
+            onChange={(e) => messageDraft(e)}
           />
-          <Button variant="primary">
+          <Button variant="primary" onClick={handleSend}>
             <i className="bi bi-send-fill"></i>
           </Button>
         </InputGroup>
       </Card.Footer>
+      <ToastContainer />
     </Card>
   );
 };

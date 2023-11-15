@@ -5,7 +5,7 @@ const fetchMessages = createAsyncThunk(
   `messageList/fetchMessages`,
   async () => {
     const result = await getAllMessages();
-    console.log(result);
+    // console.log(result);
     return result.data;
   }
 );
@@ -16,6 +16,11 @@ const messageSlice = createSlice({
     loading: false,
     allMessages: [],
     error: "",
+  },
+  reducers: {
+    // addToMessage: (state, action) => {
+    //   state.push(action.payload);
+    // },
   },
 
   extraReducers: (builder) => {
@@ -37,3 +42,4 @@ const messageSlice = createSlice({
 
 export default messageSlice.reducer;
 export { fetchMessages };
+export const { addToMessage } = messageSlice.actions;
