@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Button, Card, Form, Image, InputGroup } from "react-bootstrap";
 import MessageBubble from "./MessageBubble";
 import { useDispatch, useSelector } from "react-redux";
-import fetchMessages from "../redux/userSlice";
+import { fetchMessages } from "../redux/messageSlice";
 
 const MessageSpace = ({ closeSpace, uname, name, img, session }) => {
   const messageData = useSelector((state) => state.message);
@@ -41,13 +41,14 @@ const MessageSpace = ({ closeSpace, uname, name, img, session }) => {
         {error && <div>{error}</div>}
         {allMessages?.length > 0 &&
           allMessages
-            ?.filter((m) => m.reciverName === uname)
-            .filter((m) => m.senderName === session)
+            ?.filter(
+              (m) => m.reciverName === uname || m.reciverName === session
+            )
             .map((message) => (
               <MessageBubble
-                sender={session ? true : false}
+                sender={message.senderName === session ? true : false}
                 content={message.content}
-                mID="m1"
+                mID={message.id}
               />
             ))}
       </Card.Body>
